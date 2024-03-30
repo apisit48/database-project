@@ -23,7 +23,7 @@ CREATE TABLE pay_wall (
     exchange_rate INT NOT NULL
 );
 
-CREATE TABLE Banner (
+CREATE TABLE banner (
     banner_id SERIAL PRIMARY KEY,
     amount_needed INT NOT NULL,
     pity INT NOT NULL,
