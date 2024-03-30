@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="projectdtb@dpg-co3qqkf79t8c738qtqh0-a.singapore-postgres.render.com" uuid="1ce7a16b-41e5-40ea-a60d-eec722d8257e">
+    <data-source source="LOCAL" name="gatcha_database" uuid="1ce7a16b-41e5-40ea-a60d-eec722d8257e">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
