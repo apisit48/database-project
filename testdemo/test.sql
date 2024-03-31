@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS pve_leaderboard CASCADE ;
 DROP TABLE IF EXISTS pvp_matches CASCADE ;
 DROP TABLE IF EXISTS achievements CASCADE ;
 DROP TABLE IF EXISTS player_achievements CASCADE ;
+DROP TABLE IF EXISTS users CASCADE;
 
 
 
@@ -164,12 +165,6 @@ AFTER INSERT ON player_achievements
 FOR EACH ROW
 EXECUTE FUNCTION update_achievement_count();
 
-INSERT INTO char_info (char_id, skill, element, rarity_star)   VALUES (122,'blah blah','fire',1);
-
-INSERT INTO banner (banner_id, banner_info, pity, duration, rates, char_id)
-VALUES (1,'Summer Banner',300,'[2024-06-21 00:00, 2024-09-22 12:59)',0.4,'122');
-
-
 CREATE OR REPLACE FUNCTION calculate_win_rate(p_user_id INT)
 RETURNS FLOAT AS $$
 DECLARE
@@ -264,3 +259,36 @@ FROM
     player_info p
 JOIN
     users u ON p.user_id = u.user_id;
+
+INSERT INTO char_info (char_id, skill, element, rarity_star)   VALUES
+(111,'blah blah','fire',1),
+(112, 'Harnessing the flames of chaos', 'fire', 2),
+(113, 'Master of aquatic illusions', 'water', 1),
+(114, 'Earthshaker with seismic might', 'earth', 5),
+(115, 'Crackling with thunderous power', 'thunder', 1),
+(116, 'Dark sorcerer of the shadows', 'dark', 3),
+(117, 'Blessed with celestial light', 'light', 5),
+(118, 'Pyromancer commanding infernos', 'fire', 2),
+(119, 'Mystic guardian of the deep', 'water', 3),
+(120, 'Geomancer sculpting landscapes', 'earth', 4),
+(121, 'Electrifying storms' , 'thunder', 2),
+(122, 'Shadowcaster cloaked in darkness', 'dark', 1),
+(123, 'Radiant beacon of hope', 'light', 1),
+(124, 'Igniting sparks with fiery finesse', 'fire', 2),
+(125, 'Aquatic sage of serene waters', 'water', 3),
+(126, 'Earthen guardian of ancient lands', 'earth', 4),
+(127, 'Thundercaller wielding lightning', 'thunder', 2),
+(128, 'Channeler of forbidden shadows', 'dark', 5),
+(129, 'Bearer of luminous purity', 'light', 4),
+(130, 'Blazing infernos at their command', 'fire', 2),
+(131, 'Mystical guardian of the sea', 'water', 1),
+(132, 'Shaping earth with elemental force', 'earth', 4),
+(133, 'Crashing thunderbolts from above', 'thunder', 2),
+(134, 'Conjurer of dark mysteries', 'dark', 3),
+(135, 'Radiating with divine light', 'light', 5),
+(136, 'Incinerating enemies with flames', 'fire', 2),
+(137, 'Whispering secrets of the tides', 'water', 5);
+
+INSERT INTO banner (banner_id, banner_info, pity, duration, rates, char_id)
+VALUES (1,'Summer Banner',300,'[2024-06-21 00:00, 2024-09-22 12:59)',0.4,'122'),
+(0,'Regular Banner',300,null,0.4,'131');
