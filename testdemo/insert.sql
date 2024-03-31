@@ -162,3 +162,48 @@ INSERT INTO player_characters (user_id, char_id, obtained_at, character_level) V
 (14, '124', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
 (15, '125', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1);
 
+INSERT INTO pay_wall (price, amount, limited_purchase, method, country, exchange_rate) VALUES
+(5.99, 100, True, 1, 'USA', 1)
+,(9.99, 200, False, 2, 'USA', 1)
+,(4.99, 50, True, 1, 'UK', 0.8)
+,(14.99, 300, False, 2, 'UK', 0.8)
+,(6.99, 120, True, 1, 'EU', 0.9)
+, (11.99, 250, False, 2, 'EU', 0.9)
+,(3.99, 80, True, 1, 'CAN', 1.2)
+,(13.99, 350, False, 2, 'CAN', 1.2)
+, (2.99, 40, True, 1, 'AUS', 1.4)
+,(19.99, 400, False, 2, 'AUS', 1.4);
+
+ALTER TABLE player_info
+ADD COLUMN played_time INT;
+UPDATE player_info SET played_time = 252 WHERE user_id = 1;
+UPDATE player_info SET played_time = 95 WHERE user_id = 2;
+UPDATE player_info SET played_time = 192 WHERE user_id = 3;
+UPDATE player_info SET played_time = 140 WHERE user_id = 4;
+UPDATE player_info SET played_time = 49 WHERE user_id = 5;
+UPDATE player_info SET played_time = 48 WHERE user_id = 6;
+UPDATE player_info SET played_time = 364 WHERE user_id = 7;
+UPDATE player_info SET played_time = 189 WHERE user_id = 8;
+UPDATE player_info SET played_time = 388 WHERE user_id = 9;
+UPDATE player_info SET played_time = 229 WHERE user_id = 10;
+UPDATE player_info SET played_time = 490 WHERE user_id = 11;
+UPDATE player_info SET played_time = 496 WHERE user_id = 12;
+UPDATE player_info SET played_time = 280 WHERE user_id = 13;
+UPDATE player_info SET played_time = 226 WHERE user_id = 14;
+UPDATE player_info SET played_time = 238 WHERE user_id = 15;
+
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 66.67 WHERE user_id = 1;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 53.33 WHERE user_id = 2;
+UPDATE player_info SET pvp_match_count = 17, pvp_win_rate = 88.24 WHERE user_id = 3;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 46.67 WHERE user_id = 4;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 80.00 WHERE user_id = 5;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 60.00 WHERE user_id = 6;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 33.33 WHERE user_id = 7;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 73.33 WHERE user_id = 8;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 26.67 WHERE user_id = 9;
+UPDATE player_info SET pvp_match_count = 14, pvp_win_rate = 92.86 WHERE user_id = 10;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 40.00 WHERE user_id = 11;
+UPDATE player_info SET pvp_match_count = 14, pvp_win_rate = 100.00 WHERE user_id = 12;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 20.00 WHERE user_id = 13;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 13.33 WHERE user_id = 14;
+UPDATE player_info SET pvp_match_count = 15, pvp_win_rate = 0.00 WHERE user_id = 15;

@@ -94,6 +94,25 @@ CREATE TABLE pvp_leaderboard (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE OR REPLACE FUNCTION func_update_leaderboard()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.result = 'win' THEN
+        UPDATE pvp_leaderboard
+        SET win_count = win_count + 1
+        WHERE user_id = NEW.player_id;
+    ELSIF NEW.result = 'lose' THEN
+        UPDATE pvp_leaderboard
+        SET lose_count = lose_count + 1
+        WHERE user_id = NEW.player_id;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
 CREATE TABLE pvp_matches (
     match_id SERIAL PRIMARY KEY,
     player_id INT,
@@ -104,22 +123,37 @@ CREATE TABLE pvp_matches (
     FOREIGN KEY (opponent_id) REFERENCES users(user_id)
 
 );
+CREATE TRIGGER trg_update_leaderboard
+AFTER INSERT ON pvp_matches
+FOR EACH ROW
+EXECUTE FUNCTION func_update_leaderboard();
 
-CREATE OR REPLACE FUNCTION update_pvp_match_count()
+
+CREATE OR REPLACE FUNCTION func_sync_player_info()
 RETURNS TRIGGER AS $$
+DECLARE
+    v_total_matches INT;
+    v_win_rate FLOAT;
 BEGIN
+    SELECT win_count + lose_count,
+           CASE WHEN win_count + lose_count > 0 THEN win_count::FLOAT / (win_count + lose_count) * 100 ELSE 0 END
+    INTO v_total_matches, v_win_rate
+    FROM pvp_leaderboard
+    WHERE user_id = NEW.user_id;
+
     UPDATE player_info
-    SET pvp_match_count = pvp_match_count + 1
-    WHERE user_id = NEW.player_id;
+    SET pvp_match_count = v_total_matches, pvp_win_rate = v_win_rate
+    WHERE user_id = NEW.user_id;
 
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_update_pvp_match_count
-AFTER INSERT ON pvp_matches
+CREATE TRIGGER trg_sync_player_info
+AFTER UPDATE ON pvp_leaderboard
 FOR EACH ROW
-EXECUTE FUNCTION update_pvp_match_count();
+EXECUTE FUNCTION func_sync_player_info();
+
 
 
 CREATE TABLE pve_leaderboard (
@@ -191,6 +225,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 CREATE INDEX idx_banner_char_id ON current_banner(char_id);
 
 CREATE INDEX idx_character_pool_char_id ON character_pool(char_id);
@@ -221,6 +256,9 @@ CREATE INDEX idx_player_info_win_rate ON player_info(pvp_win_rate);
 CREATE INDEX idx_player_info_level ON player_info(level);
 CREATE INDEX idx_player_info_current_stage ON player_info(current_stage);
 
+DROP VIEW IF EXISTS player_achievements_overview;
+DROP VIEW IF EXISTS player_pvp_stats;
+DROP VIEW IF EXISTS player_pve_progress;
 
 CREATE VIEW player_achievements_overview AS
 SELECT
