@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS rates CASCADE ;
 DROP TABLE IF EXISTS char_info CASCADE ;
-DROP TABLE IF EXISTS banner CASCADE ;
+DROP TABLE IF EXISTS current_banner CASCADE ;
 DROP TABLE IF EXISTS pay_wall CASCADE ;
 DROP TABLE IF EXISTS character_pool CASCADE ;
 DROP TABLE IF EXISTS player_info CASCADE ;
@@ -17,12 +17,13 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE char_info (
     char_id VARCHAR(50) PRIMARY KEY,
+    name TEXT,
     skill TEXT,
     element VARCHAR,
     rarity_star INT
 );
 
-CREATE TABLE banner (
+CREATE TABLE current_banner (
     banner_id INT PRIMARY KEY,
     banner_info VARCHAR,
     pity INT,
@@ -36,7 +37,7 @@ CREATE TABLE rates (
     color VARCHAR,
     star INT,
     rates REAL PRIMARY KEY,
-    FOREIGN KEY (banner_id) REFERENCES banner(banner_id)
+    FOREIGN KEY (banner_id) REFERENCES current_banner(banner_id)
 );
 CREATE TABLE character_pool (
     char_id VARCHAR,
@@ -190,7 +191,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE INDEX idx_banner_char_id ON banner(char_id);
+CREATE INDEX idx_banner_char_id ON current_banner(char_id);
 
 CREATE INDEX idx_character_pool_char_id ON character_pool(char_id);
 CREATE INDEX idx_character_pool_rates ON character_pool(rates);
