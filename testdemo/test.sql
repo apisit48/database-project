@@ -201,30 +201,6 @@ AFTER INSERT ON player_achievements
 FOR EACH ROW
 EXECUTE FUNCTION update_achievement_count();
 
-CREATE OR REPLACE FUNCTION calculate_win_rate(p_user_id INT)
-RETURNS FLOAT AS $$
-DECLARE
-    v_win_count INT;
-    v_loss_count INT;
-    v_total_matches INT;
-    v_win_rate FLOAT;
-BEGIN
-    SELECT win_count, lose_count INTO v_win_count, v_loss_count
-    FROM pvp_leaderboard
-    WHERE user_id = p_user_id;
-
-    v_total_matches := v_win_count + v_loss_count;
-
-    IF v_total_matches > 0 THEN
-        v_win_rate := (v_win_count::FLOAT / v_total_matches) * 100;
-    ELSE
-        v_win_rate := 0;
-    END IF;
-
-    RETURN v_win_rate;
-END;
-$$ LANGUAGE plpgsql;
-
 
 CREATE INDEX idx_banner_char_id ON current_banner(char_id);
 
@@ -259,6 +235,7 @@ CREATE INDEX idx_player_info_current_stage ON player_info(current_stage);
 DROP VIEW IF EXISTS player_achievements_overview;
 DROP VIEW IF EXISTS player_pvp_stats;
 DROP VIEW IF EXISTS player_pve_progress;
+DROP VIEW IF EXISTS gacha_banner_view;
 
 CREATE VIEW player_achievements_overview AS
 SELECT
@@ -299,3 +276,21 @@ FROM
     player_info p
 JOIN
     users u ON p.user_id = u.user_id;
+
+CREATE VIEW gacha_banner_view AS
+SELECT
+    b.banner_id,
+    b.banner_info,
+    b.duration,
+    b.rates AS banner_rates,
+    c.char_id,
+    c.name AS character_name,
+    c.skill,
+    c.element,
+    c.rarity_star
+FROM
+    current_banner b
+JOIN
+    char_info c ON b.char_id = c.char_id
+LEFT JOIN
+    rates r ON b.banner_id = r.banner_id;
