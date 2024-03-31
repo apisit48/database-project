@@ -1,37 +1,46 @@
-DROP TABLE IF EXISTS rates;
-DROP TABLE IF EXISTS char_info;
+DROP TABLE IF EXISTS rates CASCADE ;
+DROP TABLE IF EXISTS char_info CASCADE ;
+DROP TABLE IF EXISTS banner CASCADE ;
+DROP TABLE IF EXISTS pay_wall CASCADE ;
+DROP TABLE IF EXISTS character_pool CASCADE ;
 
 CREATE TABLE char_info (
     char_id VARCHAR PRIMARY KEY,
-    skill TEXT NOT NULL,
-    element VARCHAR NOT NULL,
-    rarity_star INT NOT NULL
+    skill TEXT,
+    element VARCHAR,
+    rarity_star INT
 );
 
-CREATE TABLE rates (
-    char_id VARCHAR PRIMARY KEY,
-    color VARCHAR NOT NULL,
-    rates REAL NOT NULL,
+CREATE TABLE banner (
+    banner_id INT PRIMARY KEY,
+    pity INT,
+    banner_info VARCHAR,
+    rates FLOAT,
+    char_id VARCHAR,
     FOREIGN KEY (char_id) REFERENCES char_info(char_id)
+);
+CREATE TABLE rates (
+    banner_id INT,
+    color VARCHAR,
+    star INT,
+    rates REAL PRIMARY KEY,
+    FOREIGN KEY (banner_id) REFERENCES banner(banner_id)
+);
+CREATE TABLE character_pool (
+    char_id VARCHAR,
+    color VARCHAR,
+    rates REAL,
+    FOREIGN KEY (char_id) REFERENCES char_info(char_id),
+    FOREIGN KEY (rates) REFERENCES rates(rates)
 );
 CREATE TABLE pay_wall (
     id SERIAL PRIMARY KEY,
     price FLOAT NOT NULL,
     amount INT NOT NULL,
     limited_purchase BOOLEAN NOT NULL,
+    method INT, --  (1 for paypal)(2 credit/debit etc) method keeping it as int to simplify will added a databse for payment if have time
     country VARCHAR NOT NULL,
     exchange_rate INT NOT NULL
 );
-
-CREATE TABLE banner (
-    banner_id SERIAL PRIMARY KEY,
-    amount_needed INT NOT NULL,
-    pity INT NOT NULL,
-    banner_info VARCHAR NOT NULL,
-    rates FLOAT NOT NULL,
-    char_id VARCHAR NOT NULL,
-    FOREIGN KEY (char_id) REFERENCES char_info(char_id)
-);
-
 
 
