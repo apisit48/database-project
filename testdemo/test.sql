@@ -13,8 +13,9 @@ CREATE TABLE char_info (
 
 CREATE TABLE banner (
     banner_id INT PRIMARY KEY,
-    pity INT,
     banner_info VARCHAR,
+    pity INT,
+    duration tsrange,
     rates FLOAT,
     char_id VARCHAR,
     FOREIGN KEY (char_id) REFERENCES char_info(char_id)
@@ -42,5 +43,10 @@ CREATE TABLE pay_wall (
     country VARCHAR NOT NULL,
     exchange_rate INT NOT NULL
 );
+
+INSERT INTO char_info (char_id, skill, element, rarity_star)   VALUES (122,'blah blah','fire',1);
+
+INSERT INTO banner (banner_id, banner_info, pity, duration, rates, char_id)
+VALUES (1,'Summer Banner',300,'[2024-06-21 00:00, 2024-09-22 12:59)',0.4,'122');
 
 
