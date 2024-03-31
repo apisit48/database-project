@@ -144,3 +144,21 @@ INSERT INTO player_achievements (user_id, achievement_id, earned_on) VALUES
 (13, 3, '2024-01-01'),
 (14, 4, '2024-02-05'),
 (15, 5, '2024-03-10');
+
+INSERT INTO player_characters (user_id, char_id, obtained_at, character_level) VALUES
+(1, '111', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(2, '112', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(3, '113', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(4, '114', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(5, '115', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(6, '116', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(7, '117', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(8, '118', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(9, '119', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(10, '120', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(11, '121', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(12, '122', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(13, '123', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(14, '124', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1),
+(15, '125', NOW() - INTERVAL '1 year' * RANDOM() - INTERVAL '1 day' * RANDOM(), FLOOR(RANDOM() * 100) + 1);
+
