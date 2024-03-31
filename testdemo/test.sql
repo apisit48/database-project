@@ -68,6 +68,7 @@ CREATE TABLE player_info(
     pvp_win_rate FLOAT NOT NULL,
     pvp_match_count INT,
     achievement_count  INT,
+    current_stage VARCHAR,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
@@ -221,3 +222,45 @@ CREATE INDEX idx_char_info_rarity_star ON char_info(rarity_star);
 
 CREATE INDEX idx_player_info_win_rate ON player_info(pvp_win_rate);
 CREATE INDEX idx_player_info_level ON player_info(level);
+CREATE INDEX idx_player_info_current_stage ON player_info(current_stage);
+
+
+CREATE VIEW player_achievements_overview AS
+SELECT
+    pa.user_id,
+    u.username,
+    COUNT(pa.achievement_id) AS total_achievements,
+    MAX(a.achievement_name) AS latest_achievement
+FROM
+    player_achievements pa
+JOIN
+    users u ON pa.user_id = u.user_id
+JOIN
+    achievements a ON pa.achievement_id = a.achievement_id
+GROUP BY
+    pa.user_id, u.username;
+
+CREATE VIEW player_pvp_stats AS
+SELECT
+    p.user_id,
+    u.username,
+    p.pvp_win_rate,
+    p.pvp_match_count,
+    pvpl.win_count,
+    pvpl.lose_count
+FROM
+    player_info p
+JOIN
+    users u ON p.user_id = u.user_id
+LEFT JOIN
+    pvp_leaderboard pvpl ON p.user_id = pvpl.user_id;
+
+CREATE VIEW player_pve_progress AS
+SELECT
+    p.user_id,
+    u.username,
+    p.current_stage
+FROM
+    player_info p
+JOIN
+    users u ON p.user_id = u.user_id;
